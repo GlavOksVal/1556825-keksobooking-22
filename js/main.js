@@ -17,3 +17,5 @@ const getRandomFloatPoint = function (min, max, fix) {
 }
 
 getRandomFloatPoint(1, 7, 2);
+
+//3дз
