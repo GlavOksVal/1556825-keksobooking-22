@@ -1,21 +1,154 @@
 'use strict';
-// возвращающая случайное целое число из переданного диапазона включительно.
-const getRandomNum = function (min, max) {
-  if (min >= 0 && max > min) {
-    return Math.floor(Math.random() * ((max - min) + 1) + min); //Максимум и минимум включаются
-  }
-  throw ('Ошибка ввода данных');
+
+const SIMILAR_RENT_ADS_COUNT = 10;
+const LOCATION_MIN_LATITUDE = 35.65;
+const LOCATION_MAX_LATITUDE = 35.7;
+const LOCATION_MIN_LONGITUDE = 139.7;
+const LOCATION_MAX_LONGITUDE = 139.8;
+const MAX_RENT_PRICE = 1000000;
+const MAX_ROOMS = 20;
+const MAX_GUESTS = 40;
+const APARTMENT_TYPES = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+];
+const CHECKIN_CHECKOUT_TIMES = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
+const POSSIBLE_FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+]
+const PHOTO_URLS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
+]
+const MAX_PHOTOS_NUMBER = 20;
+const DESCRIPTION_COMPONENTS = [
+  'Срочно',
+  'Чистое жильё',
+  'Метро в пешей доступности',
+  'Развитая инфраструктура: магазины, поликлиники, школа, детский сад',
+  'Тихие соседи',
+  'Спокойный район',
+  'Красивый вид на город',
+  'Возможен торг',
+]
+const AVATAR_URL_PARTS = [
+  'img/avatars/user0',
+  '.png',
+]
+
+const getRandomInteger = (minValue, maxValue) => {
+  minValue = Math.ceil(minValue);
+  maxValue = Math.floor(maxValue);
+  const isRangeCorrect = minValue <= maxValue && minValue >= 0 && maxValue >= 0;
+  return isRangeCorrect ? Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue : null;
 }
-getRandomNum(0, 10);
+const getRandomFloatNumber = (minValue, maxValue, decimalPlaces) => {
+  const isRangeCorrect = minValue >= 0 && maxValue >= minValue;
+  if (isRangeCorrect) {
+    const divider = Math.pow(10, decimalPlaces);
+    const maxInclusionFix = 1 / Math.pow(10, decimalPlaces);
+    const numberForRandom = maxValue - minValue + maxInclusionFix;
+    const rawNumber = Math.random() * numberForRandom + minValue;
+    const multipliedNumber = rawNumber * divider;
+    const roundedNumber = Math.floor(multipliedNumber);
 
-// возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
-const getRandomFloatPoint = function (min, max, fix) {
-  if (min >= 0 && max > min) {
-    return (Math.random() * ((max - min) + 1) + min).toFixed(fix);
+    return parseFloat((roundedNumber / divider).toFixed(decimalPlaces));
+  } else {
+    return null
   }
-  throw ('Ошибка ввода данных');
+}
+const getRandomArrayElement = (array) => array[getRandomInteger(0, (array.length - 1))];
+
+const createAuthor = () => {
+  return {
+    avatar: AVATAR_URL_PARTS[0] + getRandomInteger(1, 8).toString() + AVATAR_URL_PARTS[1],
+  }
 }
 
-getRandomFloatPoint(1, 7, 2);
+const createFeatures = () => {
+  const features = [];
+  POSSIBLE_FEATURES.forEach((possibleFeature) => {
+    if (getRandomInteger(0, 1) === 1) {
+      features.push(possibleFeature);
+    }
+  })
+  return features;
+}
+const createDescription = () => {
+  let description = '';
+  DESCRIPTION_COMPONENTS.forEach((descriptionComponent) => {
+    if (getRandomInteger(0, 1) === 1) {
+      description = description + descriptionComponent + '. ';
+    }
+  })
+  return description.trim();
+}
 
-//3дз
+const createPhotos = () => {
+  const photosNumber = getRandomInteger(1, MAX_PHOTOS_NUMBER);
+  const photos = [];
+  for (let i = 0; i <= photosNumber; i++) {
+    photos.push(getRandomArrayElement(PHOTO_URLS));
+  }
+  return photos;
+}
+
+const createOffer = ([latitude, longitude]) => {
+  return {
+    get title() {
+      return this.price + ' р./сутки, ' + this.rooms + '-комн., ' + this.guests + '-местн.'
+    },
+    address: latitude.toString() + ', ' + longitude.toString(),
+    price: getRandomInteger(1, MAX_RENT_PRICE),
+    type: getRandomArrayElement(APARTMENT_TYPES),
+    rooms: getRandomInteger(1, MAX_ROOMS),
+    guests: getRandomInteger(1, MAX_GUESTS),
+    checkin: getRandomArrayElement(CHECKIN_CHECKOUT_TIMES),
+    checkout: getRandomArrayElement(CHECKIN_CHECKOUT_TIMES),
+    features: createFeatures(),
+    description: createDescription(),
+    photos: createPhotos(),
+  }
+}
+
+const createLocation = ([latitude, longitude]) => {
+  return {
+    x: latitude,
+    y: longitude,
+  }
+}
+
+const createLocationCoordinates = () => {
+  return [
+    getRandomFloatNumber(LOCATION_MIN_LATITUDE, LOCATION_MAX_LATITUDE, 5),
+    getRandomFloatNumber(LOCATION_MIN_LONGITUDE, LOCATION_MAX_LONGITUDE, 5),
+  ]
+}
+
+const createRentAd = () => {
+  const locationCoordinates = createLocationCoordinates();
+  return {
+    author: createAuthor(),
+    offer: createOffer(locationCoordinates),
+    location: createLocation(locationCoordinates),
+  }
+}
+
+const similarRentAds = new Array(SIMILAR_RENT_ADS_COUNT).fill(null).map(() => createRentAd())
+
+const useSomethingUnusedWithoutConsole = (somethingUnused) => somethingUnused;
+useSomethingUnusedWithoutConsole(similarRentAds);
+
+
