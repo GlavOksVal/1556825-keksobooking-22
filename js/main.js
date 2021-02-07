@@ -48,56 +48,60 @@ const AVATAR_URL_PARTS = [
   '.png',
 ]
 
-const getRandomInteger = (minValue, maxValue) => {
-  minValue = Math.ceil(minValue);
-  maxValue = Math.floor(maxValue);
-  const isRangeCorrect = minValue <= maxValue && minValue >= 0 && maxValue >= 0;
-  return isRangeCorrect ? Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue : null;
-}
-const getRandomFloatNumber = (minValue, maxValue, decimalPlaces) => {
-  const isRangeCorrect = minValue >= 0 && maxValue >= minValue;
-  if (isRangeCorrect) {
-    const divider = Math.pow(10, decimalPlaces);
-    const maxInclusionFix = 1 / Math.pow(10, decimalPlaces);
-    const numberForRandom = maxValue - minValue + maxInclusionFix;
-    const rawNumber = Math.random() * numberForRandom + minValue;
-    const multipliedNumber = rawNumber * divider;
-    const roundedNumber = Math.floor(multipliedNumber);
-
-    return parseFloat((roundedNumber / divider).toFixed(decimalPlaces));
-  } else {
-    return null
+//2task
+// возвращающая случайное целое число из переданного диапазона включительно.
+const getRandomNum = function (min, max) {
+  if (min >= 0 && max > min) {
+    return Math.floor(Math.random() * ((max - min) + 1) + min); //Максимум и минимум включаются
   }
+  throw ('Ошибка ввода данных');
 }
-const getRandomArrayElement = (array) => array[getRandomInteger(0, (array.length - 1))];
 
+// возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
+const getRandomFloatPoint = function (min, max, fix) {
+  if (min >= 0 && max > min) {
+    return (Math.random() * ((max - min) + 1) + min).toFixed(fix);
+  }
+  throw ('Ошибка ввода данных');
+}
+
+//3task
+//генерирует рандомный массив
+const getRandomArrayElement = (array) => array[getRandomNum(0, (array.length - 1))];
+
+//создает генерируемую цифру в адресе изображения вида
 const createAuthor = () => {
   return {
-    avatar: AVATAR_URL_PARTS[0] + getRandomInteger(1, 8).toString() + AVATAR_URL_PARTS[1],
+    avatar: AVATAR_URL_PARTS[0] + getRandomNum(1, 8).toString() + AVATAR_URL_PARTS[1],
   }
 }
 
+//гененрирует массив строк— массив случайной длины из значений
 const createFeatures = () => {
   const features = [];
   POSSIBLE_FEATURES.forEach((possibleFeature) => {
-    if (getRandomInteger(0, 1) === 1) {
+    if (getRandomNum(0, 1) === 1) {
       features.push(possibleFeature);
     }
   })
   return features;
 }
+
+//строка — описание помещения
 const createDescription = () => {
   let description = '';
   DESCRIPTION_COMPONENTS.forEach((descriptionComponent) => {
-    if (getRandomInteger(0, 1) === 1) {
+    if (getRandomNum(0, 1) === 1) {
       description = description + descriptionComponent + '. ';
     }
   })
   return description.trim();
 }
 
+//массив строк — массив случайной длины из значений..
+//Метод push присоединяет значения к массиву.
 const createPhotos = () => {
-  const photosNumber = getRandomInteger(1, MAX_PHOTOS_NUMBER);
+  const photosNumber = getRandomNum(1, MAX_PHOTOS_NUMBER);
   const photos = [];
   for (let i = 0; i <= photosNumber; i++) {
     photos.push(getRandomArrayElement(PHOTO_URLS));
@@ -105,16 +109,15 @@ const createPhotos = () => {
   return photos;
 }
 
+//собираем в один объект — содержит информацию об объявлении
 const createOffer = ([latitude, longitude]) => {
   return {
-    get title() {
-      return this.price + ' р./сутки, ' + this.rooms + '-комн., ' + this.guests + '-местн.'
-    },
+    title: 'Заголовок',
     address: latitude.toString() + ', ' + longitude.toString(),
-    price: getRandomInteger(1, MAX_RENT_PRICE),
+    price: getRandomNum(1, MAX_RENT_PRICE),
     type: getRandomArrayElement(APARTMENT_TYPES),
-    rooms: getRandomInteger(1, MAX_ROOMS),
-    guests: getRandomInteger(1, MAX_GUESTS),
+    rooms: getRandomNum(1, MAX_ROOMS),
+    guests: getRandomNum(1, MAX_GUESTS),
     checkin: getRandomArrayElement(CHECKIN_CHECKOUT_TIMES),
     checkout: getRandomArrayElement(CHECKIN_CHECKOUT_TIMES),
     features: createFeatures(),
@@ -123,20 +126,21 @@ const createOffer = ([latitude, longitude]) => {
   }
 }
 
+//объект — местоположение в виде географических координат
 const createLocation = ([latitude, longitude]) => {
   return {
     x: latitude,
     y: longitude,
   }
 }
-
 const createLocationCoordinates = () => {
   return [
-    getRandomFloatNumber(LOCATION_MIN_LATITUDE, LOCATION_MAX_LATITUDE, 5),
-    getRandomFloatNumber(LOCATION_MIN_LONGITUDE, LOCATION_MAX_LONGITUDE, 5),
+    getRandomFloatPoint(LOCATION_MIN_LATITUDE, LOCATION_MAX_LATITUDE, 5),
+    getRandomFloatPoint(LOCATION_MIN_LONGITUDE, LOCATION_MAX_LONGITUDE, 5),
   ]
 }
 
+//Собираем все в один массив
 const createRentAd = () => {
   const locationCoordinates = createLocationCoordinates();
   return {
@@ -146,9 +150,12 @@ const createRentAd = () => {
   }
 }
 
+//Для генерации массива заданной длины воспользуемся ключевым словом new вместе с конструктором объекта Array.
+//Затем с помощью метода массивов fill мы заполним его значениями null.
+//А после, методом массивов map,
+//заполним наш массив похожих волшебников результатом выполнения функции createRentAd,
+//то есть объектами. SIMILAR_RENT_ADS_COUNT в константу количество необходимых объектов для генерации.
 const similarRentAds = new Array(SIMILAR_RENT_ADS_COUNT).fill(null).map(() => createRentAd())
 
 const useSomethingUnusedWithoutConsole = (somethingUnused) => somethingUnused;
 useSomethingUnusedWithoutConsole(similarRentAds);
-
-
