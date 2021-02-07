@@ -26,12 +26,12 @@ const POSSIBLE_FEATURES = [
   'washer',
   'elevator',
   'conditioner',
-]
+];
 const PHOTO_URLS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
-]
+];
 const MAX_PHOTOS_NUMBER = 20;
 const DESCRIPTION_COMPONENTS = [
   'Срочно',
@@ -42,11 +42,17 @@ const DESCRIPTION_COMPONENTS = [
   'Спокойный район',
   'Красивый вид на город',
   'Возможен торг',
-]
+];
 const AVATAR_URL_PARTS = [
   'img/avatars/user0',
   '.png',
-]
+];
+const TITLE_OFFER = [
+  'Квартира на окраине',
+  'Квартира в центре',
+  'Дом в частном секторе',
+  'Бунгало на берегу озера',
+];
 
 //2task
 // возвращающая случайное целое число из переданного диапазона включительно.
@@ -67,7 +73,7 @@ const getRandomFloatPoint = function (min, max, fix) {
 //getRandomFloatPoint(1, 7, 2);
 
 //3task
-//генерирует рандомный массив
+//Функция нахождения случайного элемента в массиве
 const getRandomArrayElement = (array) => array[getRandomNum(0, (array.length - 1))];
 
 //создает генерируемую цифру в адресе изображения вида
@@ -77,7 +83,7 @@ const createAuthor = () => {
   }
 }
 
-//гененрирует массив строк— массив случайной длины из значений
+//гененрирует массив строк — массив случайной длины из значений
 const createFeatures = () => {
   const features = [];
   POSSIBLE_FEATURES.forEach((possibleFeature) => {
@@ -113,7 +119,7 @@ const createPhotos = () => {
 //собираем в один объект — содержит информацию об объявлении
 const createOffer = ([latitude, longitude]) => {
   return {
-    title: 'Заголовок',
+    title: getRandomArrayElement(TITLE_OFFER),
     address: latitude.toString() + ', ' + longitude.toString(),
     price: getRandomNum(1, MAX_RENT_PRICE),
     type: getRandomArrayElement(APARTMENT_TYPES),
