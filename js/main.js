@@ -56,14 +56,15 @@ const getRandomNum = function (min, max) {
   }
   throw ('Ошибка ввода данных');
 }
-
+//getRandomNum(0, 10);
 // возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 const getRandomFloatPoint = function (min, max, fix) {
   if (min >= 0 && max > min) {
-    return (Math.random() * ((max - min) + 1) + min).toFixed(fix);
+    return (Math.random() * ((max - min) + min) + min).toFixed(fix);
   }
   throw ('Ошибка ввода данных');
 }
+//getRandomFloatPoint(1, 7, 2);
 
 //3task
 //генерирует рандомный массив
