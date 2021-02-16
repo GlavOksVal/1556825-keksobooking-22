@@ -1,21 +1,23 @@
-import { createRentAds } from './create-array-ads.js'
+// import { createRentAds } from './create-array-ads.js'
+import { apartmentsMap } from './form.js';
+import { getWordForm } from './util.js';
 
-const FIRST_AD_NUMBER_TO_DRAW = 0;
-const LAST_AD_NUMBER_TO_DRAW = 0;
+// const FIRST_AD_NUMBER_TO_DRAW = 0;
+// const LAST_AD_NUMBER_TO_DRAW = 0;
 
 //В блок .popup__type выведите тип жилья offer.type, сопоставив с подписями:
-const convertTypeToRu = (type) => {
-  switch (type) {
-    case 'flat':
-      return 'Квартира';
-    case 'bungalow':
-      return 'Бунгало';
-    case 'house':
-      return 'Дом';
-    case 'palace':
-      return 'Дворец';
-  }
-}
+// const convertTypeToRu = (type) => {
+//   switch (type) {
+//     case 'flat':
+//       return 'Квартира';
+//     case 'bungalow':
+//       return 'Бунгало';
+//     case 'house':
+//       return 'Дом';
+//     case 'palace':
+//       return 'Дворец';
+//   }
+// }
 
 const generateFeaturesList = (features) => {
   const featuresFragment = document.createDocumentFragment();
@@ -33,11 +35,11 @@ const generateFeaturesList = (features) => {
 }
 
 //
-const generatePhotos = (photos, photoTemplate) => {
+const generatePhotosList = (photos, popupPhoto) => {
   const photosFragment = document.createDocumentFragment();
 
   photos.forEach((photoSrc) => {
-    const newPhoto = photoTemplate.cloneNode(true);
+    const newPhoto = popupPhoto.cloneNode(true);
     newPhoto.src = photoSrc;
     photosFragment.appendChild(newPhoto);
   })
@@ -45,62 +47,101 @@ const generatePhotos = (photos, photoTemplate) => {
   return photosFragment;
 }
 
+const createCapacityContent = ([roomsNumber, guestsNumber]) => {
+  const roomsWordForm = getWordForm(roomsNumber, ['комната', 'комнаты', 'комнат']);
+  const guestsNumberForm = getWordForm(guestsNumber, ['го', 'х', 'ти', 'ми', 'ка', 'та']);
+  const guestsWordForm = getWordForm(guestsNumber, ['гостя', 'гостей', 'гостей']);
+  return `${roomsNumber} ${roomsWordForm} для ${guestsNumber}-${guestsNumberForm} ${guestsWordForm}`;
+}
+
+const fillOrRemove = (isDataEnough, element, content, cb, cbParameters) => {
+  if (isDataEnough) {
+    if (cb) { content = cb(cbParameters); }
+    element.textContent = content;
+  } else {
+    element.remove();
+  }
+}
+
 //
-const similarAdTemplate = document.querySelector('#card')
+const adTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-const createRentAdElement = ({
-  author: { avatar },
-  offer: {
-    title,
-    address,
-    price,
-    type,
-    rooms: roomsNumber,
-    guests: guestsNumber,
-    checkin: checkinTime,
-    checkout: checkoutTime,
-    features,
-    description,
-    photos,
-  },
-}) => {
-  const rentAdElement = similarAdTemplate.cloneNode(true);
-  rentAdElement.querySelector('.popup__title').textContent = title;
-  rentAdElement.querySelector('.popup__text--address').textContent = address;
-  rentAdElement.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
-  rentAdElement.querySelector('.popup__type').textContent = convertTypeToRu(type);
-  rentAdElement.querySelector('.popup__text--capacity').textContent = `${roomsNumber} комнаты для ${guestsNumber} гостей`;
-  rentAdElement.querySelector('.popup__text--time').textContent = `Заезд после ${checkinTime}, выезд до ${checkoutTime}`;
+const generateAd = (ad) => {
+  const {
+    author: { avatar },
+    offer: {
+      title,
+      address,
+      price,
+      type,
+      rooms: roomsNumber,
+      guests: guestsNumber,
+      checkin: checkinTime,
+      checkout: checkoutTime,
+      features,
+      description,
+      photos,
+    },
+  } = ad;
+  const newAd = adTemplate.cloneNode(true);
+  newAd.querySelector('.popup__title').textContent = title;
+  newAd.querySelector('.popup__text--address').textContent = address;
+  newAd.querySelector('.popup__text--price').textContent = `${price} ₽/ночь`;
 
-  rentAdElement.querySelector('.popup__features').innerHTML = '';
-  rentAdElement.querySelector('.popup__features').appendChild(generateFeaturesList(features));
+  const popupType = newAd.querySelector('.popup__type');
+  fillOrRemove(type, popupType, apartmentsMap[type].ruLabel);
 
-  rentAdElement.querySelector('.popup__description').textContent = description;
+  const popupTextCapacity = newAd.querySelector('.popup__text--capacity');
+  let isDataEnough = Boolean(roomsNumber) && Boolean(guestsNumber);
+  fillOrRemove(isDataEnough, popupTextCapacity, '', createCapacityContent, [roomsNumber, guestsNumber]);
 
-  const photoTemplate = rentAdElement.querySelector('.popup__photo');
-  rentAdElement.querySelector('.popup__photos').innerHTML = '';
-  rentAdElement.querySelector('.popup__photos').appendChild(generatePhotos(photos, photoTemplate));
+  const popupTextTime = newAd.querySelector('.popup__text--time');
+  const timeContent = `Заезд после ${checkinTime}, выезд до ${checkoutTime}`;
+  isDataEnough = Boolean(checkinTime) && Boolean(checkoutTime);
+  fillOrRemove(isDataEnough, popupTextTime, timeContent);
 
-  rentAdElement.querySelector('.popup__avatar').src = avatar;
+  const popupFeaturesList = newAd.querySelector('.popup__features');
+  if (features.length > 0) {
+    popupFeaturesList.innerHTML = '';
+    popupFeaturesList.appendChild(generateFeaturesList(features));
+  } else {
+    popupFeaturesList.remove();
+  }
 
-  return rentAdElement;
+  const popupDescription = newAd.querySelector('.popup__description');
+  fillOrRemove(description, popupDescription, description)
+
+  const popupPhotosList = newAd.querySelector('.popup__photos');
+  if (photos.length > 0) {
+    const popupPhoto = popupPhotosList.querySelector('.popup__photo');
+    popupPhotosList.innerHTML = '';
+    popupPhotosList.appendChild(generatePhotosList(photos, popupPhoto));
+  } else {
+    popupPhotosList.remove();
+  }
+
+  const popupAvatar = newAd.querySelector('.popup__avatar');
+  if (avatar) {
+    popupAvatar.src = avatar;
+  } else {
+    popupAvatar.remove();
+  }
+
+  return newAd;
 }
 
-//
-const similarRentAds = createRentAds().slice(FIRST_AD_NUMBER_TO_DRAW, LAST_AD_NUMBER_TO_DRAW + 1);
+const adsFragment = document.createDocumentFragment();
 
-const similarAdsListFragment = document.createDocumentFragment();
+const mapCanvas = document.querySelector('.map__canvas');
 
-const mapCanvasElement = document.querySelector('.map__canvas');
-
-const generateSimilarAdsMarkup = () => {
-  similarRentAds.forEach((similarRentAd) => {
-    const newRentAdElement = createRentAdElement(similarRentAd)
-    similarAdsListFragment.appendChild(newRentAdElement);
+const generateAdsMarkup = (ads) => {
+  ads.forEach((ad) => {
+    const newAd = generateAd(ad);
+    adsFragment.appendChild(newAd);
   })
-  mapCanvasElement.appendChild(similarAdsListFragment);
+  mapCanvas.appendChild(adsFragment);
 }
 
-export { generateSimilarAdsMarkup }
+export { generateAdsMarkup }

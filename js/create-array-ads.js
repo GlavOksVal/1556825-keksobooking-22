@@ -1,4 +1,5 @@
 import { getRandomNum, getRandomFloatPoint, getRandomArrElement } from './util.js';
+import { apartmentsMap } from './form.js';
 
 const AMOUNT_OBJECTS = 10;
 const AVATAR_URL_PARTS = [
@@ -14,12 +15,13 @@ const TITLE_OFFER = [
 const PRICE_MIN = 0;
 const PRICE_MAX = 10000;
 
-const PROPERTY_TYPE = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-];
+// const PROPERTY_TYPE = [
+//   'palace',
+//   'flat',
+//   'house',
+//   'bungalow',
+// ];
+
 const AMOUNT_ROOMS_MIN = 1;
 const AMOUNT_ROOMS_MAX = 5;
 
@@ -100,6 +102,8 @@ const createPhotos = () => {
   return photos;
 }
 
+const apartmentTypes = Object.keys(apartmentsMap)
+
 //объект — местоположение в виде географических координат
 const createLocation = ([latitude, longitude]) => {
   return {
@@ -121,9 +125,9 @@ const createOffer = ([latitude, longitude]) => {
     title: getRandomArrElement(TITLE_OFFER),
     address: latitude.toString() + ', ' + longitude.toString(),
     price: getRandomNum(PRICE_MIN, PRICE_MAX),
-    type: getRandomArrElement(PROPERTY_TYPE),
+    type: getRandomArrElement(apartmentTypes),
     rooms: getRandomNum(AMOUNT_ROOMS_MIN, AMOUNT_ROOMS_MAX),
-    quests: getRandomNum(QUANTITY_GUESTS_MIN, QUANTITY_GUESTS_MAX),
+    guests: getRandomNum(QUANTITY_GUESTS_MIN, QUANTITY_GUESTS_MAX),
     checkin: getRandomArrElement(CHECKIN_TIME),
     checkout: getRandomArrElement(CHECKOUT_TIME),
     features: createFeatures(),

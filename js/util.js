@@ -23,4 +23,27 @@ const getRandomArrElement = function (array) {
   return element;
 }
 
-export { getRandomNum, getRandomFloatPoint, getRandomArrElement };
+const getRandomArray = (array) => {
+  const newArray = [];
+  array.forEach((element) => {
+    if (Math.random() > 0.5) {
+      newArray.push(element);
+    }
+  })
+  return newArray;
+}
+
+const getWordForm = (number, wordForms) => {
+  let lastTwoCharsNum = number % 100;
+  let lastChar = lastTwoCharsNum % 10;
+
+  if (lastTwoCharsNum > 10 && lastTwoCharsNum < 20) { return wordForms[2]; }
+  if (lastChar === 1) { return wordForms[0]; }
+  if (lastChar > 1 && lastChar < 5) { return wordForms[1]; }
+  if (lastChar > 6 && lastChar < 9 && wordForms[3]) { return wordForms[3]; }
+  if (lastTwoCharsNum === 40 && wordForms[4]) { return wordForms[4]; }
+  if ((lastTwoCharsNum === 90 || lastTwoCharsNum === 0) && wordForms[5]) { return wordForms[5]; }
+  return wordForms[2];
+}
+
+export { getRandomNum , getRandomFloatPoint, getRandomArrElement, getRandomArray, getWordForm };
