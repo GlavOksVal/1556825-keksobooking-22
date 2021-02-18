@@ -23,27 +23,12 @@ const getRandomArrElement = function (array) {
   return element;
 }
 
-const getRandomArray = (array) => {
-  const newArray = [];
-  array.forEach((element) => {
-    if (Math.random() > 0.5) {
-      newArray.push(element);
-    }
-  })
-  return newArray;
+//Генерация массива случайной длины
+
+const getRandomАrr = function (array) {
+  const index = getRandomNum(0, array.length -1);
+  const newArr = array.slice(index, index + getRandomNum(1, array.length -1));
+  return newArr;
 }
 
-const getWordForm = (number, wordForms) => {
-  let lastTwoCharsNum = number % 100;
-  let lastChar = lastTwoCharsNum % 10;
-
-  if (lastTwoCharsNum > 10 && lastTwoCharsNum < 20) { return wordForms[2]; }
-  if (lastChar === 1) { return wordForms[0]; }
-  if (lastChar > 1 && lastChar < 5) { return wordForms[1]; }
-  if (lastChar > 6 && lastChar < 9 && wordForms[3]) { return wordForms[3]; }
-  if (lastTwoCharsNum === 40 && wordForms[4]) { return wordForms[4]; }
-  if ((lastTwoCharsNum === 90 || lastTwoCharsNum === 0) && wordForms[5]) { return wordForms[5]; }
-  return wordForms[2];
-}
-
-export { getRandomNum , getRandomFloatPoint, getRandomArrElement, getRandomArray, getWordForm };
+export {getRandomNum, getRandomFloatPoint, getRandomArrElement, getRandomАrr};
