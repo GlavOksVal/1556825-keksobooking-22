@@ -1,4 +1,4 @@
-import { getRandomNum, getRandomFloatPoint, getRandomArrElement } from './util.js';
+import { getRandomNum, getRandomFloatPoint, getRandomArrElement, getRandomАrr } from './util.js';
 
 const AMOUNT_OBJECTS = 10;
 const AVATAR_URL_PARTS = [
@@ -20,6 +20,7 @@ const PROPERTY_TYPE = [
   'house',
   'bungalow',
 ];
+
 const AMOUNT_ROOMS_MIN = 1;
 const AMOUNT_ROOMS_MAX = 5;
 
@@ -67,16 +68,16 @@ const createAuthor = () => {
   }
 }
 
-//гененрирует массив строк — массив случайной длины из значений
-const createFeatures = () => {
-  const features = [];
-  FEATURES_OFFER.forEach((possibleFeature) => {
-    if (getRandomNum(0, 1) === 1) {
-      features.push(possibleFeature);
-    }
-  })
-  return features;
-}
+// //гененрирует массив строк — массив случайной длины из значений
+// const createFeatures = () => {
+//   const features = [];
+//   FEATURES_OFFER.forEach((possibleFeature) => {
+//     if (getRandomNum(0, 1) === 1) {
+//       features.push(possibleFeature);
+//     }
+//   })
+//   return features;
+// }
 
 //строка — описание помещения
 const createDescription = () => {
@@ -123,10 +124,10 @@ const createOffer = ([latitude, longitude]) => {
     price: getRandomNum(PRICE_MIN, PRICE_MAX),
     type: getRandomArrElement(PROPERTY_TYPE),
     rooms: getRandomNum(AMOUNT_ROOMS_MIN, AMOUNT_ROOMS_MAX),
-    quests: getRandomNum(QUANTITY_GUESTS_MIN, QUANTITY_GUESTS_MAX),
+    guests: getRandomNum(QUANTITY_GUESTS_MIN, QUANTITY_GUESTS_MAX),
     checkin: getRandomArrElement(CHECKIN_TIME),
     checkout: getRandomArrElement(CHECKOUT_TIME),
-    features: createFeatures(),
+    features: getRandomАrr(FEATURES_OFFER),
     description: createDescription(),
     photos: createPhotos(),
   }
@@ -148,6 +149,6 @@ const createAd = function () {
 //А после, методом массивов map,
 //заполним наш массив похожих волшебников результатом выполнения функции createRentAd,
 //то есть объектами. SIMILAR_RENT_ADS_COUNT в константу количество необходимых объектов для генерации.
-const createRentAds = () => new Array(AMOUNT_OBJECTS).fill(null).map(() => createAd());
+const createArrayAds = () => new Array(AMOUNT_OBJECTS).fill(null).map(() => createAd());
 
-export { createRentAds };
+export { createArrayAds };

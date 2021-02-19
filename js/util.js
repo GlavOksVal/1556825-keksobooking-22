@@ -23,4 +23,12 @@ const getRandomArrElement = function (array) {
   return element;
 }
 
-export { getRandomNum, getRandomFloatPoint, getRandomArrElement };
+//Генерация массива случайной длины
+
+const getRandomАrr = function (array) {
+  const index = getRandomNum(0, array.length -1);
+  const newArr = array.slice(index, index + getRandomNum(1, array.length -1));
+  return newArr;
+}
+
+export {getRandomNum, getRandomFloatPoint, getRandomArrElement, getRandomАrr};
