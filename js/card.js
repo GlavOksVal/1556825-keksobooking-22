@@ -23,6 +23,9 @@ const assignContent = function (varName, value) {
   }
 };
 
+// const assignContent =  (varName, value) => {
+//   value ? varName.textContent = value : varName.classList.add('hidden');
+// };
 
 //Добавление src
 
@@ -33,6 +36,8 @@ const assignContentSrc = function (varName, value) {
     varName.classList.add('hidden');
   }
 };
+// const assignContentSrc = (varName, value) => {
+//   value ? varName.src = value : varName.classList.add('hidden');
 
 //Рендер преимуществ
 
