@@ -13,10 +13,12 @@ const REGULAR_PIN_ANCHOR = [20, 40];
 const DECIMAL_PLACE = 5;
 
 /* global L:readonly */
+//  передаем сразу ссылку на функцию
 const map = L.map('map-canvas')
-  .on('load', () => {
-    activatePage();
-  })
+  .on('load', activatePage)
+  // .on('load', () => {
+  //   activatePage();
+  // })
   .setView({
     lat: CENTER_TOKYO_LAT,
     lng: CENTER_TOKYO_LNG,
@@ -46,7 +48,7 @@ const mainPinMarker = L.marker(
   },
 ).addTo(map);
 
-
+// Вынести в отдельную функцию!
 mainPinMarker.on('moveend', (evt) => {
   adFormAddress.value = `${evt.target.getLatLng().lat.toFixed(DECIMAL_PLACE)}, ${evt.target.getLatLng().lng.toFixed(DECIMAL_PLACE)}`;
 });
