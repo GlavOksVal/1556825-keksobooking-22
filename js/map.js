@@ -15,10 +15,11 @@ const DECIMAL_PLACE = 5;
 /* global L:readonly */
 //  передаем сразу ссылку на функцию
 const map = L.map('map-canvas')
-  .on('load', activatePage)
-  // .on('load', () => {
-  //   activatePage();
-  // })
+  // .on('load', activatePage);
+  .on('load', () => {
+    activatePage();
+    adFormAddress.value = `${CENTER_TOKYO_LAT}, ${CENTER_TOKYO_LNG}`;
+  })
   .setView({
     lat: CENTER_TOKYO_LAT,
     lng: CENTER_TOKYO_LNG,
