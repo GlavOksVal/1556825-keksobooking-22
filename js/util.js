@@ -31,4 +31,9 @@ const getRandomАrr = function (array) {
   return newArr;
 }
 
-export { getRandomNum, getRandomFloatPoint, getRandomArrElement, getRandomАrr };
+// export { getRandomNum, getRandomFloatPoint, getRandomArrElement, getRandomАrr };
+const isEscEvent = (evt) => {
+  return evt.key === ('Escape' || 'Esc');
+};
+
+export { getRandomNum, getRandomFloatPoint, getRandomArrElement, getRandomАrr, isEscEvent };
