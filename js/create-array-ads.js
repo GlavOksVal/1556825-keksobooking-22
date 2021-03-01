@@ -151,4 +151,5 @@ const createAd = function () {
 //то есть объектами. SIMILAR_RENT_ADS_COUNT в константу количество необходимых объектов для генерации.
 const createArrayAds = () => new Array(AMOUNT_OBJECTS).fill(null).map(() => createAd());
 
-export { createArrayAds };
+// export { createArrayAds };
+createArrayAds();

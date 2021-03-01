@@ -1,7 +1,7 @@
-import { createArrayAds } from './create-array-ads.js'
+// import { createArrayAds } from './create-array-ads.js'
 import { assignContent, assignContentSrc, renderPhotos, renderFeatures } from './card.js';
 
-const similarAds = createArrayAds();
+// const similarAds = createArrayAds();
 // const cardList = document.querySelector('.map__canvas');
 const similarCard = document.querySelector('#card').content.querySelector('.popup');
 // const fragment = document.createDocumentFragment();
@@ -60,4 +60,5 @@ const createCard = ((descriptionAd) => {
 
 // renderCard(fragment, similarAds[0]);
 
-export { createCard, similarAds };
+// export { createCard, similarAds };
+export { createCard };

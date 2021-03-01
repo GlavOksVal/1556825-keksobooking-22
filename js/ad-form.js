@@ -1,4 +1,9 @@
+import { resetMarkerPosition } from './map.js';
+import { sendUserData } from './api.js';
+import { showErrorDispatch, showSuccessDispatch } from './popup.js';
+
 const adForm = document.querySelector('.ad-form');
+const resetAdForm = document.querySelector('.ad-form__reset')
 const housingTypeSelect = adForm.querySelector('#type');
 const inputPrice = adForm.querySelector('#price');
 const timeinSelect = adForm.querySelector('#timein');
@@ -21,7 +26,7 @@ const MinPrice = {
 const MIN_DESC_LENGTH = 30;
 const MAX_DESC_LENGTH = 100;
 
-const roomValues = {
+const RoomValues = {
   1: [1],
   2: [1, 2],
   3: [1, 2, 3],
@@ -35,7 +40,7 @@ const onRoomsNumberSelect = (peopleAmount) => {
     option.disabled = true;
   });
 
-  roomValues[peopleAmount].forEach((seatsAmount) => {
+  RoomValues[peopleAmount].forEach((seatsAmount) => {
     seatingCapacityOptions.forEach((option) => {
       if (Number(option.value) === seatsAmount) {
         option.disabled = false;
@@ -70,6 +75,7 @@ titleAdInput.addEventListener('input', () => {
 
 housingTypeSelect.addEventListener('input', function () {
   inputPrice.placeholder = MinPrice[housingTypeSelect.value];
+  inputPrice.min = MinPrice[housingTypeSelect.value];
 });
 
 timeinSelect.addEventListener('input', function () {
@@ -123,4 +129,17 @@ const activatePage = () => {
 
 deactivatePage();
 
-export { activatePage, adFormAddress };
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  sendUserData(showSuccessDispatch, showErrorDispatch, new FormData(evt.target));
+  adForm.reset();
+});
+
+resetAdForm.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  mapFilters.reset();
+  resetMarkerPosition();
+});
+
+export { activatePage, adFormAddress, adForm };
