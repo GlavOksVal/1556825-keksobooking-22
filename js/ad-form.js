@@ -142,4 +142,4 @@ resetAdForm.addEventListener('click', (evt) => {
   resetMarkerPosition();
 });
 
-export { activatePage, adFormAddress, adForm };
+export { activatePage, adFormAddress, adForm, mapFilters };
