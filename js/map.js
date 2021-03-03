@@ -1,3 +1,5 @@
+/* global L:readonly */
+/* global _:readonly */
 import { activatePage, adFormAddress } from './ad-form.js';
 // import { createCard, similarAds } from './render-popup.js';
 import { createCard } from './render-popup.js';
@@ -5,8 +7,7 @@ import { getServerData } from './api.js';
 import { displayMessage } from './popup.js';
 import { getFilteredAds, setFilterChange, setFilterReset } from './filter.js';
 
-// const CENTER_TOKYO_LAT = 35.68407;
-// const CENTER_TOKYO_LNG = 139.75708;
+const RERENDER_DELAY = 500;
 // const SCALE_MAP = 12;
 const AMOUNT_ADS = 10;
 const SCALE_MAP = 10;
@@ -22,7 +23,6 @@ const CENTER_TOKYO = {
   lng: '139.75708',
 }
 
-/* global L:readonly */
 //  передаем сразу ссылку на функцию
 const map = L.map('map-canvas')
   // .on('load', activatePage);
@@ -101,10 +101,12 @@ const createRegularPin = similarAds => {
     });
 };
 
+const renderPins = (data) => () => createRegularPin(data);
+
 getServerData((data) => {
   createRegularPin(data);
   setFilterReset(() => createRegularPin(data));
-  setFilterChange(() => createRegularPin(data));
+  setFilterChange(_.debounce(renderPins(data), RERENDER_DELAY));
 }, displayMessage);
 
 const resetMarkerPosition = () => {
