@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="leaflet/leaflet.css">
   <title>Кексобукинг</title>
 </head>
 
@@ -117,7 +116,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" min="0"  max="1000000" placeholder="1000" required>
+          <input id="price" name="price" type="number" min="0" max="1000000" placeholder="1000" required>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -254,8 +253,7 @@
     </div>
   </template>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
-  <script src="leaflet/leaflet.js"></script>
-  <script src="./js/main.js" type="module"></script>
+  <script src="js/main.bundle.js"></script>
 </body>
 
 </html>
