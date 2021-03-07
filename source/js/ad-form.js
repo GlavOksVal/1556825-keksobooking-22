@@ -78,7 +78,7 @@ const resetAllPreviews = () => {
   }
 };
 
-const MinPrice = {
+const minPrice = {
   bungalow: 0,
   flat: 1000,
   house: 5000,
@@ -88,7 +88,7 @@ const MinPrice = {
 const MIN_DESC_LENGTH = 30;
 const MAX_DESC_LENGTH = 100;
 
-const RoomValues = {
+const roomValues = {
   1: [1],
   2: [1, 2],
   3: [1, 2, 3],
@@ -102,7 +102,7 @@ const onRoomsNumberSelect = (peopleAmount) => {
     option.disabled = true;
   });
 
-  RoomValues[peopleAmount].forEach((seatsAmount) => {
+  roomValues[peopleAmount].forEach((seatsAmount) => {
     seatingCapacityOptions.forEach((option) => {
       if (Number(option.value) === seatsAmount) {
         option.disabled = false;
@@ -112,7 +112,6 @@ const onRoomsNumberSelect = (peopleAmount) => {
   });
 };
 
-// titleAdInput.addEventListener('input' , () => {
 const onTitleChange = () => {
   const valueLength = titleAdInput.value.length;
 
@@ -136,8 +135,8 @@ titleAdInput.addEventListener('input', () => {
 });
 
 housingTypeSelect.addEventListener('input', function () {
-  inputPrice.placeholder = MinPrice[housingTypeSelect.value];
-  inputPrice.min = MinPrice[housingTypeSelect.value];
+  inputPrice.placeholder = minPrice[housingTypeSelect.value];
+  inputPrice.min = minPrice[housingTypeSelect.value];
 });
 
 timeinSelect.addEventListener('input', function () {
@@ -148,18 +147,12 @@ timeoutSelect.addEventListener('input', function () {
   timeinSelect.value = timeoutSelect.value;
 });
 
-//
-// const mapFilters = document.querySelector('.map__filters');
-// const mapFiltersFields = mapFilters.querySelectorAll('label, input, select');
-// const adFormFields = adForm.querySelectorAll('label, input, select, textarea, button');
-
 let className = undefined;
 
 const changeClassName = () => {
   mapFilters ? className = 'map__filters--disabled' : className = 'ad-form--disabled';
 }
 
-//Отключение формы
 const disableForm = (form, fields) => {
   changeClassName();
   form.classList.add(className);
@@ -168,7 +161,6 @@ const disableForm = (form, fields) => {
   })
 };
 
-//Включение формы
 const enableForm = (form, fields) => {
   changeClassName();
   form.classList.remove(className);
@@ -177,13 +169,11 @@ const enableForm = (form, fields) => {
   })
 };
 
-//Деактивация страницы
 const deactivatePage = () => {
   disableForm(adForm, adFormFields);
   disableForm(mapFilters, mapFiltersFields);
 }
 
-//Активация страницы
 const activatePage = () => {
   enableForm(adForm, adFormFields);
   enableForm(mapFilters, mapFiltersFields);

@@ -2,14 +2,12 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { activatePage, adFormAddress } from './ad-form.js';
-// import { createCard, similarAds } from './render-popup.js';
 import { createCard } from './render-popup.js';
 import { getServerData } from './api.js';
 import { displayMessage } from './popup.js';
 import { getFilteredAds, setFilterChange, setFilterReset } from './filter.js';
 
 const RERENDER_DELAY = 500;
-// const SCALE_MAP = 12;
 const AMOUNT_ADS = 10;
 const SCALE_MAP = 10;
 const MAIN_PIN_SRC = '../img/main-pin.svg';
@@ -24,9 +22,7 @@ const CENTER_TOKYO = {
   lng: '139.75708',
 }
 
-//  передаем сразу ссылку на функцию
 const map = L.map('map-canvas')
-  // .on('load', activatePage);
   .on('load', () => {
     activatePage();
     adFormAddress.value = `${CENTER_TOKYO.lat}, ${CENTER_TOKYO.lng}`;
@@ -66,7 +62,6 @@ const mainPinMarker = L.marker(
   },
 ).addTo(map);
 
-// Вынести в отдельную функцию!
 mainPinMarker.on('moveend', (evt) => {
   adFormAddress.value = `${evt.target.getLatLng().lat.toFixed(DECIMAL_PLACE)}, ${evt.target.getLatLng().lng.toFixed(DECIMAL_PLACE)}`;
 });

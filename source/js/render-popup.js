@@ -1,11 +1,7 @@
-// import { createArrayAds } from './create-array-ads.js'
 import { assignContent, assignContentSrc, renderPhotos, renderFeatures } from './card.js';
 
-// const similarAds = createArrayAds();
-// const cardList = document.querySelector('.map__canvas');
 const similarCard = document.querySelector('#card').content.querySelector('.popup');
-// const fragment = document.createDocumentFragment();
-const HousingTypes = {
+const housingTypes = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -28,7 +24,7 @@ const createCard = ((descriptionAd) => {
   assignContent(popupTextPrice, concatenationPrice);
 
   const popupType = card.querySelector('.popup__type');
-  assignContent(popupType, HousingTypes[offer.type]);
+  assignContent(popupType, housingTypes[offer.type]);
 
   const popupTextCapacity = card.querySelector('.popup__text--capacity');
   const concatenationCapacity = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
@@ -53,12 +49,4 @@ const createCard = ((descriptionAd) => {
   return card;
 });
 
-// const renderCard = function (container, oneCard) {
-//   container.appendChild(createCard(oneCard));
-//   cardList.appendChild(container);
-// }
-
-// renderCard(fragment, similarAds[0]);
-
-// export { createCard, similarAds };
 export { createCard };

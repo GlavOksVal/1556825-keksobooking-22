@@ -47,7 +47,6 @@ const selectFeatures = (data) => {
   return result;
 }
 
-
 const getFilteredAds = (data) => {
   return (
     checkedType(data) &&
@@ -57,7 +56,6 @@ const getFilteredAds = (data) => {
     getPriceFilter(data)
   )
 }
-
 
 const setFilterChange = (cb) => {
   mapFilters.addEventListener('change', () => {

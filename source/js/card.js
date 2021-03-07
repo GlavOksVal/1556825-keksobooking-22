@@ -1,5 +1,3 @@
-//Создание элемента
-
 const createElement = function (tagName, className, modifier, source) {
   const element = document.createElement(tagName);
   element.classList.add(className);
@@ -13,8 +11,6 @@ const createElement = function (tagName, className, modifier, source) {
   return element;
 }
 
-//Добавлениe контента
-
 const assignContent = function (varName, value) {
   if (value) {
     varName.textContent = value;
@@ -23,12 +19,6 @@ const assignContent = function (varName, value) {
   }
 };
 
-// const assignContent =  (varName, value) => {
-//   value ? varName.textContent = value : varName.classList.add('hidden');
-// };
-
-//Добавление src
-
 const assignContentSrc = function (varName, value) {
   if (value) {
     varName.src = value;
@@ -36,10 +26,6 @@ const assignContentSrc = function (varName, value) {
     varName.classList.add('hidden');
   }
 };
-// const assignContentSrc = (varName, value) => {
-//   value ? varName.src = value : varName.classList.add('hidden');
-
-//Рендер преимуществ
 
 const renderFeatures = function (offers, varName) {
   if (offers) {
@@ -53,8 +39,6 @@ const renderFeatures = function (offers, varName) {
     varName.classList.add('hidden');
   }
 };
-
-//Рендер фотографий
 
 const renderPhotos = function (offers, varName) {
   if (offers) {
