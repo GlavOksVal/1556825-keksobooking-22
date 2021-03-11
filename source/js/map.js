@@ -10,17 +10,17 @@ import { getFilteredAds, setFilterChange, setFilterReset } from './filter.js';
 const RERENDER_DELAY = 500;
 const AMOUNT_ADS = 10;
 const SCALE_MAP = 10;
-const MAIN_PIN_SRC = '../img/main-pin.svg';
+const MAIN_PIN_SRC = 'img/main-pin.svg';
 const MAIN_PIN_SIZE = [52, 52];
 const MAIN_PIN_ANCHOR = [26, 52];
-const REGULAR_PIN_SRC = '../img/pin.svg';
+const REGULAR_PIN_SRC = 'img/pin.svg';
 const REGULAR_PIN_SIZE = [40, 40];
 const REGULAR_PIN_ANCHOR = [20, 40];
 const DECIMAL_PLACE = 5;
 const CENTER_TOKYO = {
   lat: '35.68407',
   lng: '139.75708',
-}
+};
 
 const map = L.map('map-canvas')
   .on('load', () => {

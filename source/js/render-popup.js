@@ -5,7 +5,7 @@ const housingTypes = {
   bungalow: 'Бунгало',
   house: 'Дом',
   palace: 'Дворец',
-}
+};
 
 const similarCard = document.querySelector('#card').content.querySelector('.popup');
 
