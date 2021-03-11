@@ -1,4 +1,4 @@
-const createElement = function (tagName, className, modifier, source) {
+const createElement = (tagName, className, modifier, source) => {
   const element = document.createElement(tagName);
   element.classList.add(className);
   if (modifier) {
@@ -11,7 +11,7 @@ const createElement = function (tagName, className, modifier, source) {
   return element;
 }
 
-const assignContent = function (varName, value) {
+const assignContent = (varName, value) => {
   if (value) {
     varName.textContent = value;
   } else {
@@ -19,7 +19,7 @@ const assignContent = function (varName, value) {
   }
 };
 
-const assignContentSrc = function (varName, value) {
+const assignContentSrc = (varName, value) => {
   if (value) {
     varName.src = value;
   } else {
@@ -27,11 +27,11 @@ const assignContentSrc = function (varName, value) {
   }
 };
 
-const renderFeatures = function (offers, varName) {
+const renderFeatures = (offers, varName) => {
   if (offers) {
     varName.innerHTML = '';
 
-    offers.forEach(function (item) {
+    offers.forEach((item) => {
       const element = createElement('li', 'popup__feature', `popup__feature--${item}`);
       varName.appendChild(element);
     });
@@ -40,11 +40,11 @@ const renderFeatures = function (offers, varName) {
   }
 };
 
-const renderPhotos = function (offers, varName) {
+const renderPhotos = (offers, varName) => {
   if (offers) {
     varName.innerHTML = '';
 
-    offers.forEach(function (item) {
+    offers.forEach((item) => {
       const photo = createElement('img', 'popup__photo', false, item);
       photo.width = 45;
       photo.height = 40;

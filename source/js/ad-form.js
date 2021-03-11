@@ -134,16 +134,16 @@ titleAdInput.addEventListener('input', () => {
   onTitleChange();
 });
 
-housingTypeSelect.addEventListener('input', function () {
+housingTypeSelect.addEventListener('input', () => {
   inputPrice.placeholder = minPrice[housingTypeSelect.value];
   inputPrice.min = minPrice[housingTypeSelect.value];
 });
 
-timeinSelect.addEventListener('input', function () {
+timeinSelect.addEventListener('input', () => {
   timeoutSelect.value = timeinSelect.value;
 });
 
-timeoutSelect.addEventListener('input', function () {
+timeoutSelect.addEventListener('input', () => {
   timeinSelect.value = timeoutSelect.value;
 });
 
