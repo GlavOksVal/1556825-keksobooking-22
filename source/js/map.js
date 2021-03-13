@@ -99,17 +99,17 @@ const createRegularPin = similarAds => {
 
 const renderPins = (data) => () => createRegularPin(data);
 
-getServerData((data) => {
-  createRegularPin(data);
-  setFilterReset(() => createRegularPin(data));
-  setFilterChange(_.debounce(renderPins(data), RERENDER_DELAY));
-}, displayMessage);
-
 const resetMarkerPosition = () => {
   map.setView(CENTER_TOKYO, SCALE_MAP);
   map.closePopup();
   mainPinMarker.setLatLng(CENTER_TOKYO);
   adFormAddress.value = `${CENTER_TOKYO.lat}, ${CENTER_TOKYO.lng}`;
 }
+
+getServerData((data) => {
+  createRegularPin(data);
+  setFilterReset(() => createRegularPin(data));
+  setFilterChange(_.debounce(renderPins(data), RERENDER_DELAY));
+}, displayMessage);
 
 export { resetMarkerPosition, CENTER_TOKYO };
