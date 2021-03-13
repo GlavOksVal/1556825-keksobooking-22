@@ -109,6 +109,7 @@ const resetMarkerPosition = () => {
 getServerData((data) => {
   createRegularPin(data);
   setFilterReset(() => createRegularPin(data));
+  // eslint-disable-next-line no-undefined
   setFilterChange(_.debounce(renderPins(data), RERENDER_DELAY));
 }, displayMessage);
 
