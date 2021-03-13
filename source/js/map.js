@@ -1,4 +1,4 @@
-/* global _:readonly */
+import _ from 'lodash';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { activatePage, adFormAddress } from './ad-form.js';
@@ -109,7 +109,6 @@ const resetMarkerPosition = () => {
 getServerData((data) => {
   createRegularPin(data);
   setFilterReset(() => createRegularPin(data));
-  // eslint-disable-next-line
   setFilterChange(_.debounce(renderPins(data), RERENDER_DELAY));
 }, displayMessage);
 
